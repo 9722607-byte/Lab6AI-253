@@ -19,10 +19,14 @@ import javafx.stage.Stage;
 import java.util.Comparator;
 
 /*
- * Цей клас успадковується від стандартного класу Application.
- * Клас Application відповідає за роботу FX-додатку.
- * Якщо ви пишете додаток з використанням бібліотеки javaFX, то ви
- * повинні створити свій клас, який успадковується від класу Application
+- Цей клас успадковується від стандартного класу Application.
+
+- Клас Application відповідає за роботу FX-додатку.
+
+- Якщо ви пишете додаток з використанням бібліотеки javaFX, то ви
+
+- повинні створити свій клас, який успадковується від класу Application
+
  */
 public class SortingList extends Application {
 
@@ -32,12 +36,18 @@ public class SortingList extends Application {
     private ObservableList<Student> students;
 
     /*
-     * Цей метод запускається, коли запускається ваш додаток.
-     * Stage - клас "підмостки". Вважайте, що це щось подібне до вікна додатку.
-     * Просто в JavaFX вікно називається "підмостками", як театральні підмостки.
-     * Найперші "підмостки" (перше вікно програми) створює за вас система і передає
-     * його вам як вхідний параметр. Якщо ви захочете створити додаткові "підмостки"
-     * - ви повинні зробити це самі
+- Цей метод запускається, коли запускається ваш додаток.
+
+- Stage - клас "підмостки". Вважайте, що це щось подібне до вікна додатку.
+
+- Просто в JavaFX вікно називається "підмостками", як театральні підмостки.
+
+- Найперші "підмостки" (перше вікно програми) створює за вас система і передає
+
+- його вам як вхідний параметр. Якщо ви захочете створити додаткові "підмостки"
+
+- ви повинні зробити це самі
+
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -83,7 +93,8 @@ public class SortingList extends Application {
     }
 
     /*
-     * Заповнюємо список даними вручну
+- Заповнюємо список даними вручну
+
      */
     private ObservableList<Student> populateList() {
         Student student1 = new Student("Борис", "Іванов", 75);
@@ -98,7 +109,8 @@ public class SortingList extends Application {
     }
 
     /*
-     * Налаштовуємо кнопки. Тут має бути ваш код
+- Налаштовуємо кнопки. Тут має бути ваш код
+
      */
     private HBox setButtons() {
         // Кнопка JavaFX має клас Button
@@ -118,19 +130,43 @@ public class SortingList extends Application {
         // Обробка натискання кнопки за допомогою об'єкта анонімного класу,
         // реалізує інтерфейс Comparable
 
-        final boolean[] order = {true};
+        final boolean[] orderName = {true};
+        final boolean[] orderSurname = {true};
+        final boolean[] orderMark = {true};
 
         sortByNameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                students.sort(new NameSorter(order[0]));
-                order[0] = !order[0];
+                students.sort(new NameSorter(orderName[0]));
+                orderName[0] = !orderName[0];
             }
         });
 
         // TODO: Обробка натискання на кнопку "Сортувати за прізвищем"
+        sortByLastNameButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                SurnameSorter surnameSorter = new SurnameSorter();
+                if (!orderSurname[0]) {
+                    surnameSorter.toggleDirection();
+                }
+                students.sort(surnameSorter);
+                orderSurname[0] = !orderSurname[0];
+            }
+        });
 
         // TODO: Обробка натискання на кнопку "Сортувати за оцінкою"
+        sortByMarkButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                GpaSorter gpaSorter = new GpaSorter();
+                if (!orderMark[0]) {
+                    gpaSorter.toggleDirection();
+                }
+                students.sort(gpaSorter);
+                orderMark[0] = !orderMark[0];
+            }
+        });
 
         // Створюємо горизонтальний ряд
         HBox hb = new HBox();
